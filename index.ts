@@ -1,20 +1,39 @@
 import express from "express";
-
-import { SaveUsers } from "./services";
+import { appendFileSync } from "fs";
+import { pipeline, Transform, Writable } from "stream";
+import { promisify } from "util";
 
 const app = express();
+const PORT = 3000;
 
-app.use(express.json({ limit: "5mb" }));
-
-app.post("/users", (req, res) => {
+app.post("/users", async (req, res) => {
   console.log("POST users");
 
+  const pipelineAsync = promisify(pipeline);
+
   try {
-    const count = SaveUsers(req.body);
+    const convertToString = new Transform({
+      transform(chunk, _encoding, cb) {
+        this.push(chunk.toString("utf8"));
+        cb();
+      },
+    });
+
+    const writableStream = new Writable({
+      write: function (chunk, _encoding, cb) {
+        appendFileSync("./users.json", chunk);
+        cb();
+      },
+    });
+
+    await pipelineAsync(
+      req,
+      convertToString,
+      writableStream
+    );
 
     res.status(200).json({
       message: "Arquivo recebido com sucesso",
-      user_count: count,
       timestamp: new Date(),
     });
   } catch (err) {
@@ -38,6 +57,6 @@ app.use((_req, res) => {
   res.status(404);
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("Running in port: 3000");
 });
