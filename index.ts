@@ -1,5 +1,4 @@
 import express from "express";
-import { appendFileSync } from "fs";
 import { pipeline, Transform, Writable } from "stream";
 import { promisify } from "util";
 
@@ -21,7 +20,7 @@ app.post("/users", async (req, res) => {
 
     const writableStream = new Writable({
       write: function (chunk, _encoding, cb) {
-        appendFileSync("./users.json", chunk);
+        //TO DO: Salvar no banco de dados
         cb();
       },
     });
