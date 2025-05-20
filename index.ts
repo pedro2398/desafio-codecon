@@ -19,7 +19,7 @@ app.post("/users", async (req, res) => {
     });
 
     const writableStream = new Writable({
-      write: async function (chunk, _encoding, cb) {
+      write: function (_chunk, _encoding, cb) {
         //TO DO: Salvar no banco de dados
         cb();
       },
