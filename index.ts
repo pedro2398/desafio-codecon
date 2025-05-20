@@ -1,7 +1,6 @@
 import express from "express";
 import { pipeline, Transform, Writable } from "stream";
 import { promisify } from "util";
-import { clientDb } from "./config";
 
 const app = express();
 const PORT = 3000;
@@ -21,8 +20,7 @@ app.post("/users", async (req, res) => {
 
     const writableStream = new Writable({
       write: async function (chunk, _encoding, cb) {
-        const client = await clientDb();
-        await client.query("INSERT INTO users (name, email, password) VALUES ($1, $2, $3)", [chunk.name, chunk.email, chunk.password]);
+        //TO DO: Salvar no banco de dados
         cb();
       },
     });
