@@ -1,6 +1,7 @@
 import express from "express";
 import { pipeline, Transform, Writable } from "stream";
 import { promisify } from "util";
+import { convertToString, saveInDatabase } from "./services";
 
 const app = express();
 const PORT = 3000;
@@ -11,24 +12,10 @@ app.post("/users", async (req, res) => {
   const pipelineAsync = promisify(pipeline);
 
   try {
-    const convertToString = new Transform({
-      transform(chunk, _encoding, cb) {
-        this.push(chunk.toString("utf8"));
-        cb();
-      },
-    });
-
-    const writableStream = new Writable({
-      write: function (_chunk, _encoding, cb) {
-        //TO DO: Salvar no banco de dados
-        cb();
-      },
-    });
-
     await pipelineAsync(
       req,
       convertToString,
-      writableStream
+      saveInDatabase
     );
 
     res.status(200).json({
