@@ -1,9 +1,9 @@
 import { User } from "../utils";
 import { saveUser as saveUserRepository } from '../repository'
 
-export const saveUser = async (user: User) => {
+export const saveUser = (user: User) => {
   try {
-    return await saveUserRepository(user);
+    return saveUserRepository(user);
   } catch (err) {
     console.error('Error saving user: ', err);
   }
