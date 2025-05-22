@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Baseado no desafio proposto pela codecon de criar uma API com o fito de processar dados de 100.000 usuarios, resolvi criar esse repositorio para resolver esse desafio e estudar o uso de Streams no Backend. 
+Baseado no desafio proposto pela codecon de criar uma API com o fito de processar dados de 100.000 usuarios, resolvi criar esse repositorio para desenvolver a minha solução e estudar o uso de Streams no Backend. 
 
 - [Exemplos de respostas esperadas na API](https://github.com/codecon-dev/desafio-1-1s-vs-3j/blob/main/exemplos-endpoints.json)
 - [Arquivo com 100 mil usuários para importar](https://drive.google.com/file/d/1zOweCB2jidgHwirp_8oBnFyDgJKkWdDA/view?usp=sharing)
