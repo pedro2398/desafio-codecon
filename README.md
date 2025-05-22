@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Você tem 1 hora para criar uma API que recebe um arquivo JSON com 100.000 usuários e oferece endpoints performáticos e bem estruturados para análise dos dados.
+Baseado no desafio proposto pela codecon de criar uma API com o fito de processar dados de 100.000 usuarios, resolvi criar esse repositorio para resolver esse desafio e estudar o uso de Streams no Backend. 
 
 - [Exemplos de respostas esperadas na API](https://github.com/codecon-dev/desafio-1-1s-vs-3j/blob/main/exemplos-endpoints.json)
 - [Arquivo com 100 mil usuários para importar](https://drive.google.com/file/d/1zOweCB2jidgHwirp_8oBnFyDgJKkWdDA/view?usp=sharing)
@@ -33,7 +33,7 @@ O JSON contém uma lista de usuários com a seguinte estrutura:
 
 ---
 
-## Endpoints obrigatórios
+## Endpoints
 
 ### `POST /users`
 
@@ -72,12 +72,3 @@ A avaliação deve testar:
 Esse endpoint pode rodar scripts de teste embutidos no próprio projeto e retornar um JSON com os resultados. Ele será utilizado para validar a entrega de forma automática e rápida.
 
 ---
-
-## Requisitos Técnicos
-
-- Tempo de resposta < 1s por endpoint.
-- Todos os endpoints precisam retornar o tempo de processamento (em milissegundos) e a timestamp da requisição
-- Código limpo, modular, com funções bem definidas.
-- Pode usar qualquer linguagem/framework.
-- Documentação ou explicação final vale pontos bônus.
-- Não pode usar IA.
