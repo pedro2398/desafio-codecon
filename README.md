@@ -10,6 +10,79 @@ Baseado no desafio proposto pela codecon de criar uma API com o fito de processa
 
 ---
 
+## 🚀 Como rodar o projeto localmente
+
+### 1. Instale as dependências
+
+Após clonar o repositório, navegue até a raiz do projeto e instale as dependências com:
+
+```bash
+npm install
+```
+
+---
+
+### 2. Crie o arquivo `.env`
+
+Na raiz do projeto, crie um arquivo chamado `.env` com as seguintes variáveis de ambiente:
+
+```env
+DATABASE_URL=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
+```
+
+---
+
+### 3. Gere o Prisma Client
+
+Antes de executar a aplicação, você precisa gerar o cliente Prisma com:
+
+```bash
+npx prisma generate
+```
+
+> ℹ️ Este comando lê o schema do Prisma (`schema.prisma`) e gera o Prisma Client, uma biblioteca personalizada que permite consultar e manipular o banco de dados com segurança e facilidade.
+
+---
+
+### 4. Suba os containers com Docker
+
+Com as variáveis de ambiente definidas e o Prisma Client gerado, inicie os containers com:
+
+```bash
+docker compose up --build
+```
+
+> 🐳 Isso irá levantar os serviços definidos no `docker-compose.yml`, incluindo a API e o banco de dados PostgreSQL.
+
+---
+
+### 5. Aplique o schema ao banco de dados
+
+Com os containers rodando, abra um novo terminal e execute:
+
+```bash
+npx prisma db push
+```
+
+> 🔄 Este comando sincroniza o schema definido no arquivo `schema.prisma` com o banco de dados real, criando automaticamente as tabelas e estruturas necessárias.
+
+---
+
+### 6. Faça requisições para a API
+
+Agora você pode interagir com a API acessando:
+
+```
+http://localhost:3000
+```
+
+Use ferramentas como [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest/) para testar os endpoints.
+
+---
+
 ## JSON de entrada
 
 O JSON contém uma lista de usuários com a seguinte estrutura:
