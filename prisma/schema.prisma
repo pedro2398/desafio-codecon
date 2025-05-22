@@ -8,38 +8,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Project {
-  id        Int      @id @default(autoincrement())
-  name      String
-  completed Boolean
-  team      Team     @relation(fields: [teamId], references: [id])
-  teamId    Int      @unique
-}
-
-model Team {
-  id       Int       @id @default(autoincrement())
-  name     String
-  leader   Boolean
-  projects Project[]
-  user     User      @relation(fields: [userId], references: [id])
-  userId   Int       @unique
-}
-
-model Log {
-  id     Int      @id @default(autoincrement())
-  date   DateTime
-  action String
-  user   User     @relation(fields: [userId], references: [id])
-  userId Int      @unique
-}
-
 model User {
-  id      Int     @id @default(autoincrement())
+  id      String     @id
   name    String
   age     Int 
   score   Int
   active  Boolean @default(false)
   country String
-  team    Team?   
-  logs    Log[]
+  team    Json   
+  logs    Json[]
 }

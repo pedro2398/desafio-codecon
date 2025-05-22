@@ -1,7 +1,8 @@
 import express from "express";
-import { pipeline, Transform, Writable } from "stream";
+import { pipeline } from "stream";
 import { promisify } from "util";
-import { convertToString, saveInDatabase } from "./services";
+import StreamArray from 'stream-json/streamers/StreamArray';
+import { saveUser } from "./services";
 
 const app = express();
 const PORT = 3000;
@@ -9,18 +10,29 @@ const PORT = 3000;
 app.post("/users", async (req, res) => {
   console.log("POST users");
 
+  let count = 0;
+  const jsonStream = StreamArray.withParser();
   const pipelineAsync = promisify(pipeline);
 
+  jsonStream.on('data', async ({ value }) => {
+    count++;
+    await saveUser(value);
+  });
+  
+  jsonStream.on('end', () => {
+    console.log('Todos os objetos foram processados.');
+  });
+  
   try {
     await pipelineAsync(
       req,
-      convertToString,
-      saveInDatabase
+      jsonStream,
     );
 
     res.status(200).json({
       message: "Arquivo recebido com sucesso",
       timestamp: new Date(),
+      user_count: count,
     });
   } catch (err) {
     console.error("ERROR: ", err);

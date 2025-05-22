@@ -1,8 +1,13 @@
-import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../generated/prisma/client'
 
-const connectionString = `${process.env.DATABASE_URL}`
-const adapter = new PrismaPg({ connectionString });
-const prismaClient = new PrismaClient({ adapter });
+const connectionString = process.env.DATABASE_URL
+
+const prismaClient = new PrismaClient({
+  datasources: {
+    db: {
+      url: connectionString,
+    },
+  },
+})
 
 export default prismaClient;
