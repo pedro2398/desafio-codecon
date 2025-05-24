@@ -2,7 +2,7 @@ import express from "express";
 import { pipeline } from "stream";
 import { promisify } from "util";
 import StreamArray from 'stream-json/streamers/StreamArray';
-import { saveUser } from "./services";
+import { listSuperUsers, saveUser } from "./services";
 
 const app = express();
 const PORT = 3000;
@@ -41,9 +41,16 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.get("/superusers", (_req, _res) => {
-  //Filtro: score >= 900 e active = true
-  //Retorna os dados e o tempo de processamento da requisição.
+app.get("/superusers", async (_req, res) => {
+  console.log("GET superusers");
+  
+  const superUsers = await listSuperUsers();
+
+  res.status(200).json({
+    message: "Superusers listados com sucesso",
+    timestamp: new Date(),
+    superusers: superUsers,
+  });
 });
 
 app.get("/top-countries", (_req, _res) => {
