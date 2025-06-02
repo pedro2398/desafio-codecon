@@ -1,25 +1,25 @@
 services:
   db:
-    image: mongo:8-alpine
+    image: mongo
     ports:
       - 27017:27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-    volumes:
-      -
     networks:
       - desafio-codecon
+    volumes:
+      - mongodb_data:/data/db
   api:
     build:
       context: .
     ports:
       - 3000:3000
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_USER: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_PASS: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_DB: ${MONGO_INITDB_DATABASE}
     networks:
       - desafio-codecon
     depends_on:
@@ -27,3 +27,5 @@ services:
 networks:
   desafio-codecon:
     driver: bridge
+volumes:
+  mongodb_data:
