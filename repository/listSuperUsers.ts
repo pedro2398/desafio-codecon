@@ -1,12 +1,13 @@
-import prismaClient from "../config";
+import { Connection } from "mongoose";
+import { getUserModel } from "../entities";
 
-export const getSuperUsers = () => {
-  return prismaClient.user.findMany({
-    where: {
-      score: {
-        gt: 900,
-      },
+export const listSuperUsers = (conn: Connection) => async () => {
+  const userModel = getUserModel(conn);
+
+  return userModel
+    .find({
       active: true,
-    },
-  });
+      score: { $gt: 900 },
+    })
+    .lean();
 };

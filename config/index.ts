@@ -1,13 +1,31 @@
-import { PrismaClient } from '../generated/prisma/client'
+import mongoose from "mongoose";
 
-const connectionString = `postgresql://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@db:5432/${process.env.POSTGRES_DB}`
+const connectionString = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@localhost:27017/${process.env.MONGO_INITDB_DATABASE}?authSource=admin`;
 
-const prismaClient = new PrismaClient({
-  datasources: {
-    db: {
-      url: connectionString,
-    },
-  },
-})
+let conn: mongoose.Connection | null = null;
 
-export default prismaClient;
+export const connectToMongodb = async (): Promise<mongoose.Connection> => {
+  if (!conn) {
+    conn = mongoose.createConnection(connectionString, {
+      retryWrites: false,
+      tls: true,
+      retryReads: true,
+      maxPoolSize: 15,
+      connectTimeoutMS: 10000,
+    });
+
+    try {
+      await conn.asPromise();
+      console.log("Connected to MongoDB");
+
+      return conn;
+    } catch (err) {
+      conn = null;
+
+      console.error("Error connecting to MongoDB:", err);
+      throw new Error("Failed to connect to MongoDB");
+    }
+  }
+
+  return conn;
+};
